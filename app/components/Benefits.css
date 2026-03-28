@@ -1,0 +1,121 @@
+.benefits-section {
+  padding: clamp(80px, 10vh, 140px) clamp(24px, 6vw, 80px);
+  position: relative;
+  background: var(--bg2);
+}
+
+.benefits-container {
+  margin: 0 auto;
+  max-width: 1200px;
+  width: 100%;
+}
+
+.benefits-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.benefits-header {
+  /* max-width: 700px; */
+  margin-bottom: clamp(48px, 7vw, 80px);
+}
+
+.benefit-section-title{
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.benefit-section-title span{
+  font-family: var(--font-mono);
+  font-size: 35px;
+  font-weight:700;
+  color: var(--accent);
+  display: inline-flex;
+}
+
+.benefits-desc {
+  color: var(--text2);
+  margin-top: 1.25rem;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  font-style: italic;
+}
+
+.benefits-grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.benefits-card {
+  padding: 32px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s, border-color 0.3s;
+  cursor: default;
+}
+
+.benefits-card:hover {
+  transform: translateY(-8px);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.5),
+    0 0 0 1px var(--accent),
+    0 0 40px var(--glow);
+  border-color: rgba(108, 99, 255, 0.4);
+}
+
+[data-theme="light"] .benefits-card:hover {
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.12),
+    0 0 0 1px var(--accent),
+    0 0 30px var(--glow);
+}
+
+.benefits-card-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.benefits-icon {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius2);
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  color: var(--accent);
+  flex-shrink: 0;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.benefits-card:hover .benefits-icon {
+  background: rgba(108, 99, 255, 0.1);
+  border-color: rgba(108, 99, 255, 0.3);
+}
+
+.benefits-card-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--text);
+  font-size: 1.25rem;
+}
+
+.benefits-card-text {
+  color: var(--text2);
+  font-size: 0.95rem;
+  line-height: 1.625;
+}
+
+.benefits-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 48px;
+}
