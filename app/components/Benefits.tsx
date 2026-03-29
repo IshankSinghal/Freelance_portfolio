@@ -13,6 +13,7 @@ const Benefits: React.FC = () => {
             <h2 className="benefit-section-title" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '12px' }}>
               <p>What all you get:</p>
               <RotatingText
+                animatePresenceMode="popLayout"
                 style={{
                   color: "var(--accent)",
                   backgroundColor: "#fff",

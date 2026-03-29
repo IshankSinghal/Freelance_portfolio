@@ -41,6 +41,11 @@ html {
   --shadowLight: rgba(255, 255, 255, 0.04);
   --shadowDark: rgba(0, 0, 0, 0.4);
 }
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
 [data-theme="light"] {
   --bg: #f4f5fc;
   --bg2: #ecedf7;
@@ -81,7 +86,9 @@ body {
   pointer-events: none;
   z-index: 10000;
   transform: translate(-50%, -50%);
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
   box-shadow: 0 0 10px var(--glow);
 }
 
@@ -746,8 +753,7 @@ h2.section-title span {
   will-change: transform;
 }
 .project-card:hover {
-  transform: translateY(-8px) rotateX(var(--rx, 0deg))
-    rotateY(var(--ry, 0deg));
+  transform: translateY(-8px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
   box-shadow:
     0 24px 60px rgba(0, 0, 0, 0.5),
     0 0 0 1px var(--accent),
@@ -997,8 +1003,8 @@ h2.section-title span {
   background: var(--bg2);
 }
 .contact-wrap {
-  max-width: 860px;
-  margin: auto;
+  /* max-width: 860px; */
+  margin: 0 4rem;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 60px;
@@ -1150,7 +1156,7 @@ textarea.form-input {
 
 /* ── FOOTER ────────────────────────────────────────────────────── */
 footer {
-  padding: 32px clamp(24px, 6vw, 80px);
+  padding: 12px clamp(24px, 6vw, 80px);
   border-top: 1px solid var(--border);
   display: flex;
   align-items: center;

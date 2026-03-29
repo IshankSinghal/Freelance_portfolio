@@ -10,22 +10,31 @@
   padding: 1.5rem 0;
 }
 
-.faq-item:first-child {
-  border-top: 1px solid var(--border2);
-}
-
 .faq-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  /* Ensure interaction logic passes gracefully to custom cursor pulse */
+  align-items: center;
+  padding: 8px 12px;
+  margin: -8px -12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  user-select: none;
   pointer-events: auto;
+}
+
+.faq-header:hover {
+  background: rgba(108, 99, 255, 0.05); /* Subtle feedback */
+}
+
+[data-theme="light"] .faq-header:hover {
+  background: rgba(108, 99, 255, 0.03);
 }
 
 .faq-header-left {
   display: flex;
   gap: 1.25rem;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .faq-icon-box {
@@ -49,20 +58,20 @@
   font-weight: 600;
   color: var(--text);
   font-size: 1.05rem;
-  margin-top: 10px;
 }
 
 .faq-toggle {
   font-size: 1.8rem;
   font-weight: 300;
   color: var(--text2);
-  margin-top: -2px;
   width: 32px;
   height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.3s ease, color 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    color 0.3s ease;
   user-select: none;
   font-family: var(--font-mono);
 }
@@ -80,12 +89,14 @@
 
 .faq-content-inner {
   overflow: hidden;
-  color: var(--text2);
+  /* color: var(--text2); */
   font-size: 0.95rem;
   line-height: 1.625;
   opacity: 0;
   padding-top: 0;
-  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), padding-top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    padding-top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .faq-item.open .faq-content-inner {
@@ -151,3 +162,42 @@
   color: var(--text);
   margin-top: 1rem;
 }
+
+/* Flip card wrapper — height animates to reveal the taller back face */
+.faq-card-wrapper {
+  perspective: 1000px;
+  height: 72px; /* match your existing faq-item closed height */
+  transition: height 0.4s ease;
+}
+
+.faq-card-wrapper:has(.faq-card--flipped) {
+  height: 200px; /* adjust to your tallest answer */
+}
+
+/* Front face */
+.faq-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Back face sits rotated 180° behind the front */
+.faq-face--back {
+  transform: rotateX(180deg);
+  overflow-y: auto;
+  cursor: default;
+}
+
+.faq-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--color-muted, #888);
+  line-height: 1;
+}
+

@@ -1,0 +1,211 @@
+.projects-grid.mt-10 {
+  margin-top: 2.5rem;
+}
+
+/* ── Card wrapper ────────────────────────────────────────── */
+.project-card-wrapper {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  min-height: 200px;
+  width: 100%;
+  background: #0a0a0a;
+  border: 0.5px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* ── Image panel — never moves ───────────────────────────── */
+.image-panel {
+  position: absolute;
+  inset: 0;
+}
+
+.image-panel img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 600ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.project-card-wrapper:hover .image-panel img {
+  transform: scale(1.04);
+}
+
+/* ── Scrim — deepens on hover ────────────────────────────── */
+.img-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.82) 0%,
+    rgba(0, 0, 0, 0.28) 55%,
+    rgba(0, 0, 0, 0.1) 100%
+  );
+  transition: background 400ms ease;
+}
+
+.project-card-wrapper:hover .img-scrim {
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.55) 50%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+}
+
+/* ── Image title — slides from bottom to top on hover ───── */
+.img-title {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  transition:
+    bottom 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 300ms ease;
+}
+
+.project-card-wrapper:hover .img-title {
+  bottom: calc(100% - 52px);
+}
+
+.img-title .project-num {
+  font-size: 10px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.1em;
+  margin-bottom: 3px;
+}
+
+.img-title h3 {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Featured dot ────────────────────────────────────────── */
+.featured-dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #4ade80;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+/* ── Details panel — fades + drifts in on hover ─────────── */
+.details-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition:
+    opacity 380ms ease 60ms,
+    transform 380ms cubic-bezier(0.22, 1, 0.36, 1) 60ms;
+  backdrop-filter: blur(12px);
+}
+
+.project-card-wrapper:hover .details-panel {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ── Description ─────────────────────────────────────────── */
+.panel-desc {
+  font-size: 15px;
+  color: rgb(255, 255, 255);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── Tags ────────────────────────────────────────────────── */
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.tag-pill {
+  font-size: 10px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.55);
+  border: 0.5px solid rgba(255, 255, 255, 0.12);
+  letter-spacing: 0.02em;
+}
+
+/* ── Actions row ─────────────────────────────────────────── */
+.buttons-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.project-btn {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 7px 10px;
+  border-radius: 100px;
+  border: none;
+  cursor: pointer;
+  transition:
+    background 200ms,
+    transform 120ms;
+  text-align: center;
+  letter-spacing: 0.01em;
+}
+
+.project-btn:active {
+  transform: scale(0.97);
+}
+
+.project-btn.primary {
+  flex: 1;
+  background: #ffffff;
+  color: #000000;
+}
+
+.project-btn.primary:hover {
+  background: #e8e8e8;
+}
+
+.project-btn.secondary {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+  border: 0.5px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.project-btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.project-btn.secondary svg {
+  width: 13px;
+  height: 13px;
+}

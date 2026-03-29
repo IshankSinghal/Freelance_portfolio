@@ -4,11 +4,11 @@
 
 .marquee-root {
   font-family: 'Syne', sans-serif;
-  background: var(--bg);
-  padding: 60px 0;
+  background: none;
+  /* padding: 60px 0; */
   overflow: hidden;
   position: relative;
-  width: 100%;
+  width: 100vw;
   transition: background 0.3s;
 }
 
@@ -48,10 +48,10 @@
   background: linear-gradient(to right, var(--bg), transparent);
 }
 
-.marquee-track-wrapper::after {
+/* .marquee-track-wrapper::after {
   right: 0;
   background: linear-gradient(to left, var(--bg), transparent);
-}
+} */
 
 /* ─── Scrolling track ─────────────────────────────────────────────────────── */
 

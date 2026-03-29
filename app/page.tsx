@@ -12,11 +12,20 @@ import {
   SiTypescript,
   SiTailwindcss,
 } from "react-icons/si";
+import {
+  LuShieldCheck,
+  LuBriefcase,
+  LuGift,
+  LuMessageSquare,
+  LuMail,
+} from "react-icons/lu";
+import { SiHomebridge } from "react-icons/si";
 import LogoLoop from "./ui/LogoLoop";
 import TechMarquee from "./ui/TechMarquee";
 import SocialIcons from "./ui/Social/SocialIcons";
 import Faqs from "./components/Faqs";
 import Benefits from "./components/Benefits";
+import Trust from "./components/Trust";
 
 // Define types for better TypeScript support
 interface DragState {
@@ -42,6 +51,7 @@ const Portfolio: React.FC = () => {
 
   const [dark, setDark] = useState<boolean>(true);
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
+  const [activeTab, setActiveTab] = useState<string>("hero");
   const [submitState, setSubmitState] = useState<
     "idle" | "loading" | "success"
   >("idle");
@@ -69,21 +79,27 @@ const Portfolio: React.FC = () => {
     const onMove = (e: MouseEvent) => {
       mx = e.clientX;
       my = e.clientY;
-      
+
       if (customCursorRef.current) {
         customCursorRef.current.style.left = `${mx}px`;
         customCursorRef.current.style.top = `${my}px`;
 
         const target = e.target as HTMLElement;
-        if (target.closest(".project-card") || target.closest(".social-pill")||
-  target.closest("button") ||
-  target.closest(".nav-links")||
-  target.closest(".faq-item") || target.closest(".floating-chip") || target.closest(".scene")) {
+        if (
+          target.closest(".project-card") ||
+          target.closest(".social-pill") ||
+          target.closest("button") ||
+          target.closest(".nav-links") ||
+          target.closest(".faq-item") ||
+          target.closest(".floating-chip") ||
+          target.closest(".scene") ||
+          target.closest(".project-card-wrapper")
+        ) {
           customCursorRef.current.classList.add("pulse");
         } else {
           customCursorRef.current.classList.remove("pulse");
         }
-      } 
+      }
     };
 
     document.addEventListener("mousemove", onMove);
@@ -125,7 +141,7 @@ const Portfolio: React.FC = () => {
 
       // Active nav link highlighting
       const sections = document.querySelectorAll<HTMLElement>("section[id]");
-      let current = "";
+      let current = "hero";
 
       sections.forEach((sec) => {
         if (window.scrollY >= sec.offsetTop - 120) {
@@ -133,12 +149,7 @@ const Portfolio: React.FC = () => {
         }
       });
 
-      document
-        .querySelectorAll<HTMLAnchorElement>(".nav-links a")
-        .forEach((a) => {
-          a.style.color =
-            a.getAttribute("href") === `#${current}` ? "var(--text)" : "";
-        });
+      setActiveTab((prev) => (prev !== current ? current : prev));
 
       // Parallax hero orbs
       document.querySelectorAll<HTMLElement>(".hero-orb").forEach((orb, i) => {
@@ -281,7 +292,7 @@ const Portfolio: React.FC = () => {
         d.rotY += (360 / 14000) * delta;
         // Smoothly return rotX to 20deg when not dragging
         d.rotX += (20 - d.rotX) * 0.05;
-        
+
         cube.style.transform = `rotateX(${d.rotX}deg) rotateY(${d.rotY}deg)`;
       }
 
@@ -367,26 +378,61 @@ const Portfolio: React.FC = () => {
 
       {/* ── NAV ─────────────────────────────────────── */}
       <nav id="navbar" ref={navbarRef}>
-        <div className="nav-logo" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>IS.</div>
-        <ul className="nav-links">
-          <li>
-            <a href="#hero">Hello</a>
-          </li>
-          <li>
-            <a href="#projects">Projects</a>
-          </li>
-          <li>
-            <a href="#skills">Skills</a>
-          </li>
-          <li>
-            <a href="#benefits">Offers</a>
-          </li>
-          <li>
-            <a href="#faqs">FAQs</a>
-          </li>
-          <li>
-            <a href="#contact">Contact</a>
-          </li>
+        <div
+          className="nav-logo"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        >
+          IS.
+        </div>
+        <ul
+          className="nav-links"
+          style={{ display: "flex", gap: "24px", alignItems: "center" }}
+        >
+          {[
+            { id: "hero", label: "Hello", icon: <SiHomebridge /> },
+            { id: "trust", label: "Trust", icon: <LuShieldCheck /> },
+            { id: "projects", label: "Projects", icon: <LuBriefcase /> },
+            { id: "benefits", label: "Offers", icon: <LuGift /> },
+            { id: "faqs", label: "FAQs", icon: <LuMessageSquare /> },
+            { id: "contact", label: "Contact", icon: <LuMail /> },
+          ].map((item) => {
+            const isActive = activeTab === item.id;
+            return (
+              <li key={item.id}>
+                <a
+                  href={`#${item.id}`}
+                  onClick={() => {
+                    setActiveTab(item.id);
+                    setMobileOpen(false);
+                  }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: isActive ? "6px" : "0px",
+                    color: isActive ? "var(--text)" : "var(--text2)",
+                    transition: "all 0.1s ease",
+                  }}
+                >
+                  <span
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      transition: "all 0.3s ease",
+                      width: isActive ? "18px" : "0px",
+                      opacity: isActive ? 1 : 0,
+                      transform: isActive ? "scale(1)" : "scale(0.5)",
+                      overflow: "hidden",
+                      color: "var(--accent)",
+                    }}
+                  >
+                    {item.icon}
+                  </span>
+                  <span>{item.label}</span>
+                </a>
+              </li>
+            );
+          })}
         </ul>
         <div className="nav-right">
           <button
@@ -394,7 +440,13 @@ const Portfolio: React.FC = () => {
             title="Toggle theme"
             onClick={() => setDark(!dark)}
           >
-            <span style={{ display: 'inline-block', transition: 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)', transform: dark ? 'rotate(0deg)' : 'rotate(360deg)' }}>
+            <span
+              style={{
+                display: "inline-block",
+                transition: "transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)",
+                transform: dark ? "rotate(0deg)" : "rotate(360deg)",
+              }}
+            >
               {dark ? "🌙" : "☀️"}
             </span>
           </button>
@@ -530,123 +582,103 @@ const Portfolio: React.FC = () => {
               </div>
             </div>
           </div>
+          <div
+            style={{ width: "100%", gridColumn: "1 / -1", marginTop: "2rem" }}
+          >
+            <TechMarquee speed={22} label="Built with" />
+          </div>
         </div>
       </section>
 
       <SocialIcons />
 
+      {/* ── TRUST ────────────────────────────────────── */}
+      <Trust />
       {/* ── PROJECTS ─────────────────────────────────── */}
       <Projects />
-      <Skills />
+      {/* <Skills /> */}
 
-      <TechMarquee  speed={22} label="Built with" />
+      {/* <TechMarquee speed={22} label="Built with" /> */}
 
       {/* ── BENEFITS ─────────────────────────────────── */}
       <Benefits />
 
-      {/* ── FAQS ────────────────────────────────────── */}
-      <Faqs />
-
       {/* ── CONTACT ─────────────────────────────────── */}
       <section id="contact">
-        <div className="section-label">Get In Touch</div>
-        <h2 className="section-title reveal">
-          Let's <span>Work Together</span>
-        </h2>
-        <div className="contact-wrap">
-          <div className="contact-info reveal">
-            <h3>
-              Have a project in
-              <br />
-              <span>mind? Let's talk.</span>
-            </h3>
-            <p>
-              I'm currently available for freelance projects and full-time
-              opportunities. Whether you need a landing page, a complex web app,
-              or a design-to-code conversion — I'm your person.
-            </p>
-            <div className="socials">
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noreferrer"
-                className="social-link"
-              >
-                <div className="social-icon si-gh">⌥</div>
-                <span className="social-text">github.com/alexchen</span>
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noreferrer"
-                className="social-link"
-              >
-                <div className="social-icon si-li">in</div>
-                <span className="social-text">linkedin.com/in/alexchen</span>
-              </a>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noreferrer"
-                className="social-link"
-              >
-                <div className="social-icon si-tw">𝕏</div>
-                <span className="social-text">@alexchendev</span>
-              </a>
+        <div className="container">
+          <div className="section-label">Get In Touch</div>
+          <h2 className="section-title reveal">
+            Let's <span>Work Together</span>
+          </h2>
+          <div className="contact-wrap">
+            <div className="contact-info reveal">
+              <h3>
+                Have a project in
+                <br />
+                <span>mind? Let's talk.</span>
+              </h3>
+              <p>
+                I'm currently available for freelance projects and full-time
+                opportunities. Whether you need a landing page, a complex web app,
+                or a design-to-code conversion — I'm your person.
+              </p>
             </div>
-          </div>
-          <div className="contact-form reveal reveal-delay-2">
-            <div className="form-group">
-              <label className="form-label">Your Name</label>
-              <input
-                className="form-input"
-                type="text"
-                placeholder="John Doe"
-                id="formName"
-                value={formName}
-                onChange={(e) => setFormName(e.target.value)}
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Email Address</label>
-              <input
-                className="form-input"
-                type="email"
-                placeholder="john@example.com"
-                id="formEmail"
-                value={formEmail}
-                onChange={(e) => setFormEmail(e.target.value)}
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Message</label>
-              <textarea
-                className="form-input"
-                placeholder="Tell me about your project..."
-                id="formMsg"
-                value={formMsg}
-                onChange={(e) => setFormMsg(e.target.value)}
-              ></textarea>
-            </div>
-            {submitState !== "success" && (
-              <button
-                className={`form-submit${submitState === "loading" ? " loading" : ""}`}
-                id="formSubmit"
-                onClick={submitForm}
-              >
-                <span id="submitText">
-                  {submitState === "loading" ? "Sending..." : "Send Message ✉"}
-                </span>
-              </button>
-            )}
-            {submitState === "success" && (
-              <div className="form-success show" id="formSuccess">
-                ✓ Message sent! I'll get back to you within 24 hours.
+            <div className="contact-form reveal reveal-delay-2">
+              <div className="form-group">
+                <label className="form-label">Your Name</label>
+                <input
+                  className="form-input"
+                  type="text"
+                  placeholder="John Doe"
+                  id="formName"
+                  value={formName}
+                  onChange={(e) => setFormName(e.target.value)}
+                />
               </div>
-            )}
+              <div className="form-group">
+                <label className="form-label">Email Address</label>
+                <input
+                  className="form-input"
+                  type="email"
+                  placeholder="john@example.com"
+                  id="formEmail"
+                  value={formEmail}
+                  onChange={(e) => setFormEmail(e.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Message</label>
+                <textarea
+                  className="form-input"
+                  placeholder="Tell me about your project..."
+                  id="formMsg"
+                  value={formMsg}
+                  onChange={(e) => setFormMsg(e.target.value)}
+                ></textarea>
+              </div>
+              {submitState !== "success" && (
+                <button
+                  className={`form-submit${submitState === "loading" ? " loading" : ""}`}
+                  id="formSubmit"
+                  onClick={submitForm}
+                >
+                  <span id="submitText">
+                    {submitState === "loading" ? "Sending..." : "Send Message ✉"}
+                  </span>
+                </button>
+              )}
+              {submitState === "success" && (
+                <div className="form-success show" id="formSuccess">
+                  ✓ Message sent! I'll get back to you within 24 hours.
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </section>
+
+      {/* ── FAQS ────────────────────────────────────── */}
+      <Faqs />
 
       {/* ── FOOTER ──────────────────────────────────── */}
       <footer>

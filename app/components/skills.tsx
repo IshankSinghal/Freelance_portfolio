@@ -62,7 +62,7 @@ const Skills: React.FC = () => {
       <h2 className="section-title reveal">
         Technical <span>Skills</span>
       </h2>
-      <div className="skills-grid">
+      {/* <div className="skills-grid">
         {skillsData.map((cat, index) => (
           <div
             key={cat.category}
@@ -97,7 +97,7 @@ const Skills: React.FC = () => {
             </div>
           </div>
         ))}
-      </div>
+      </div> */}
     </section>
   );
 };
